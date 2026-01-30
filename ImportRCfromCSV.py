@@ -1,3 +1,20 @@
+# ##### BEGIN GPL LICENSE BLOCK #####
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# ##### END GPL LICENCE BLOCK #####
+
 bl_info = {
     "name": "Import RC Cameras",
     "blender": (4, 00, 0),
@@ -11,7 +28,7 @@ import os
 from mathutils import Euler
 from bpy.utils import register_class
 from bpy.types import Operator
-from bpy_extras.io_utils import ImportHelper, ExportHelper
+from bpy_extras.io_utils import ImportHelper
 from bpy.props import (
         StringProperty,
         BoolProperty,
@@ -23,8 +40,10 @@ from bpy.props import (
 # =========================
 # USER SETTINGS
 # =========================
-filepath_csv = r"F:\PGT\Richie\drive-download-20200911T075638Z-001\Richie.csv" # Update path
-SCALE = 1.0
+
+SCALE = 1.0    
+FACTOR = 1
+# FACTOR = 24.5 / 24.0  # adjust as needed
 
 SENSOR_WIDTH  = 36.0
 SENSOR_HEIGHT = 24.0
@@ -58,12 +77,6 @@ class ImportRCameras(Operator, ImportHelper):
     
     def execute(self, context):
         
-        
-    
-
-
-
-        
         import_rc_camera_csv(filepath_csv, self.use_camera, self.user_image_path)
 
         return {'FINISHED'}     
@@ -93,10 +106,7 @@ def import_rc_camera_csv(filepath_csv, use_camera, user_image_path):
             z = float(row["alt"]) * SCALE
 
             # CAMERA DATA
-            cam_data = bpy.data.cameras.new(name)
-            
-#            FACTOR = 24.5 / 24.0  # adjust as needed
-            FACTOR = 1
+            cam_data = bpy.data.cameras.new(name)      
             cam_data.lens = float(row["f"]) * FACTOR
             cam_data.sensor_width = SENSOR_WIDTH
             cam_data.sensor_height = SENSOR_HEIGHT
