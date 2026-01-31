@@ -17,7 +17,11 @@
 
 bl_info = {
     "name": "Import RC Cameras",
+    "version": (0, 1, 0),
     "blender": (4, 00, 0),
+    "location": "File > Import > Import RC camera CSV (.csv)",
+    "description": "Import RC camera positions from CSV file",
+    "warning": "",
     "category": "Import",
 }
 
@@ -26,7 +30,7 @@ import csv
 import math
 import os
 from mathutils import Euler
-from bpy.utils import register_class
+from bpy.utils import (register_class, unregister_class,)
 from bpy.types import Operator
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import (
